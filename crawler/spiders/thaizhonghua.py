@@ -20,7 +20,7 @@ class ThaizhonghuaSpider(BaseSpider):
     start_urls = ['https://thaizhonghua.com/']
     website_id = 225  # 网站的id(必填)
     language_id = 1813  # 所用语言的id
-
+    # proxy = '01'
 
     post_url = 'https://thaizhonghua.com/wp-admin/admin-ajax.php?td_theme_name=Newspaper&v=10.3'
 
