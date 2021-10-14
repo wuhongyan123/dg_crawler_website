@@ -34,7 +34,7 @@ COMMON_WEBSITE_CONFIG = {
     'db': 'common_website'
 }
 
-# COMMON_WEBSITE_CONFIG = {
+# COMMON_WEBSITE_CONFIG = {   # dg账号拥有权限：对common和website读、更新、清空news表权限、插入development表数据
 #     'host': '192.168.235.5',
 #     'port': 3306,
 #     'user': 'dg',
