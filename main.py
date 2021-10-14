@@ -45,10 +45,13 @@ class Main:
                     name = i[:-3]
                     if name not in deployedSpis:
                         spiderFile=open(file=f'crawler/pass/{i}',mode='r',encoding='utf-8').read()
-                        proxy =re.findall("proxy[ =']+\d+",spiderFile)[0] if re.findall("proxy[ =']+\d+",spiderFile) else '00'
+                        tmp = re.findall("proxy[ =']+\d+",spiderFile)[0] if re.findall("proxy[ =']+\d+",spiderFile) else None
+                        proxy =re.findall('\d+',tmp)[0] if tmp else '00'
                         is_http = 1 if re.findall("is_http[ '=1]",spiderFile) else 0
                         website_id = re.findall('\d+',re.findall("website_id[ =]+\d+", spiderFile)[0])[0]
-                        self.common_db.execute(SQL_DEVELOPMENT_INSERT.format(website_id, name, proxy, is_http))
+                        sql = SQL_DEVELOPMENT_INSERT.format(website_id, name, proxy, is_http)
+                        print(sql)
+                        self.common_db.execute(sql)
             except Exception as e:
                 print("Something wrong with the spiders in folder pass:",end='')
                 print(e)
