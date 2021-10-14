@@ -3,6 +3,7 @@ from utils.date_util import DateUtil
 from crawler.items import NewsItem
 from bs4 import BeautifulSoup
 from scrapy.http import Request, Response
+from common.header import UA_LIST
 import requests
 import json
 import socket
