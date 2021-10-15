@@ -37,7 +37,7 @@ class Main:
     def insert_dev(self):
         passList=os.listdir('crawler/pass')
         passList.remove("__init__.py")
-        if "__pycahe__" in passList:
+        if "__pycache__" in passList:
             passList.remove('__pycache__')
         if passList:
             try:
