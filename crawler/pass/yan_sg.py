@@ -7,7 +7,7 @@ from scrapy.http.request import Request
 
 class yan_sgSpider(BaseSpider):
     name = 'yan_sg'
-    website_id = 1639
+    website_id = 1670
     language_id = 2005
     allowed_domains = ['yan.sg']
     start_urls = ['https://www.yan.sg/all/']  # https://targetlaos.com/
@@ -16,54 +16,37 @@ class yan_sgSpider(BaseSpider):
         soup = BeautifulSoup(response.text, 'lxml')
         flag = True
         if self.time is not None:
-            t = soup.find(class_='td-ss-main-content td_block_template_1').find_all(class_='td_module_10 td_module_wrap td-animation-stack')[0]
-            last_time = t.select_one('.td-post-date').text.replace('年', '-').replace('月', '-').replace('日','') + ' 00:00:00'
+            t = soup.find(class_='td-ss-main-content td_block_template_1').find_all(
+                class_='td_module_10 td_module_wrap td-animation-stack')[0]
+            last_time = t.select_one('.td-post-date').text.replace('年', '-').replace('月', '-').replace('日',
+                                                                                                       '') + ' 00:00:00'
         if self.time is None or DateUtil.formate_time2time_stamp(last_time) >= int(self.time):
-            print(last_time,'\n',self.time)
-            articles = soup.find(class_='td-ss-main-content td_block_template_1').find_all(class_='td_module_10 td_module_wrap td-animation-stack')
+            articles = soup.find(class_='td-ss-main-content td_block_template_1').find_all(
+                class_='td_module_10 td_module_wrap td-animation-stack')
             for article in articles:
                 article_url = article.select_one('.td-module-thumb a').get('href')
                 title = article.select_one('.item-details').find(class_='entry-title td-module-title').text
                 yield Request(url=article_url, callback=self.parse_item,
                               meta={'category1': None, 'category2': None,
                                     'title': title,
-                                    'abstract': article.select_one('.td-excerpt').text.strip(),
+                                    # 'abstract': title,
+                                    'abstract': article.select_one('.td-excerpt').text.strip() if article.select_one('.td-excerpt') else title,
                                     'images': article.select_one('.td-module-thumb a img').get('src'),
-                                    'time': article.select_one('.td-post-date').text.replace('年', '-').replace('月', '-').replace('日','') + ' 00:00:00'})
+                                    'time': article.select_one('.td-post-date').text.replace('年', '-').replace('月',
+                                                                                                               '-').replace(
+                                        '日', '') + ' 00:00:00'})
         else:
             flag = False
             self.logger.info("时间截止")
 
         if flag:
             if soup.find(class_='page-nav td-pb-padding-side') is not None:
-                next_page = soup.find(class_='page-nav td-pb-padding-side').select('a')[-1].get('href')
-                yield Request(url=next_page, callback=self.parse, meta=response.meta)
+                for i in range(2, 1031):
+                    # next_page = soup.find(class_='page-nav td-pb-padding-side').select('a')[-1].get('href')
+                    next_page = 'https://www.yan.sg/all/page/{}'.format(str(i))
+                    yield Request(url=next_page, meta=response.meta)
             else:
                 self.logger.info("no more pages")
-
-
-    # def parse_page(self, response):
-    #     soup = BeautifulSoup(response.text, 'lxml')
-    #     flag = True
-    #     if self.time is not None:
-    #         t = soup.select('div.post-listing > article > p > span')[-1].text.split('/')
-    #         last_time = "{}-{}-{}".format(t[2], t[1], t[0]) + ' 00:00:00'
-    #     if self.time is None or DateUtil.time_now_formate(last_time) >= int(self.time):
-    #         articles = soup.select('#main-content > div.content-wrap > div > div.post-listing h2 > a')
-    #         for article in articles:
-    #             article_url = article.get('href')
-    #             title = article.text
-    #             yield Request(url=article_url, callback=self.parse_item,meta={'title': title, 'category1': response.meta['category1'], 'category2': response.meta['category2']})
-    #     else:
-    #         flag = False
-    #         self.logger.info("时间截止")
-    #     if flag:
-    #         if soup.select_one('#tie-next-page a') is not None:
-    #             next_page = soup.select_one('#tie-next-page a').get('href')
-    #             yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
-    #         else:
-    #             self.logger.info("no more pages")
-
 
     def parse_item(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
@@ -84,4 +67,6 @@ class yan_sgSpider(BaseSpider):
                     continue
             body = '\n'.join(p_list)
             item['body'] = body
+        elif soup.select('.td-post-content p'):
+            item['body'] = ''.join(i.text.strip() + '\n' for i in soup.select('.td-post-content p'))
         return item

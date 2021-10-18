@@ -11,7 +11,7 @@ ua = {
 
 def GET(url: str):
     try:
-        r = requests.get(url=url, headers=ua)
+        r = requests.get(url=url, headers=ua, timeout=5)
         r.raise_for_status()
         print('Request GET successfully!')
         return BeautifulSoup(r.text, 'lxml')
