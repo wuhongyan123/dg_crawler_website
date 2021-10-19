@@ -30,7 +30,7 @@ class NewsduanSpider(BaseSpider):
             response.meta['page'] = 2
         if self.time is not None:
             last_pub = re.findall('\d+-\d+-\d+',soup.select('.has_img_time')[-1].text)[0] +' 00:00:00' if soup.select('.has_img_time') else DateUtil.time_now_formate()
-            if self.time > DateUtil.formate_time2time_stamp(last_pub):
+            if self.time < DateUtil.formate_time2time_stamp(last_pub):
                 yield Request(url=NewsduanSpider.api.format( response.meta['page']),meta=response.meta)
             else:
                 self.logger.info('时间截止')
