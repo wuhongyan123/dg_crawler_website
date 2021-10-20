@@ -13,6 +13,7 @@ class SwatantraawazSpider(BaseSpider):
     start_urls = ['https://www.swatantraawaz.com/']
     website_id = 1043  # 网站的id(必填)
     language_id = 1930  # 所用语言的id
+    proxy = '02'
     sql = {  # sql配置
         'host': '192.168.235.162',
         'user': 'dg_admin',
