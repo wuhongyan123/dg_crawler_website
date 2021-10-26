@@ -62,7 +62,7 @@ class EcentralSpider(BaseSpider):
         item['title'] = soup.select_one(".entry-header h1").text.strip()
         item['body'] = "\n".join([p.text.strip() for p in soup.select(".entry-content > p")])
         item['abstract'] = soup.select_one(".entry-content > p").text.strip()
-        item['images'] = [img.get("data-src") for img in soup.select(".entry-content > figure img")]
+        item['images'] = [img.get("data-lazy-src") for img in soup.select(".entry-content > figure img")]
         item['category1'] = soup.select("#main p#breadcrumbs a")[-1].text
         item['category2'] = None
         item['website_id'] = self.website_id
