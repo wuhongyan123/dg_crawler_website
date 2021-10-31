@@ -1,5 +1,6 @@
 # encoding: utf-8
 import re
+import time
 
 from fire.core import Fire
 from libs.mysql import Mysql
@@ -8,6 +9,8 @@ from common.sql import *
 from utils.date_util import DateUtil
 import os
 import fire
+import eventlet
+eventlet.monkey_patch()
 
 class Main:
     def __init__(self, db='01', time='days_ago:3'):
@@ -27,8 +30,9 @@ class Main:
                         self.common_db.execute(SQL_DEVELOPMENT_TIME_UPDATE.format(DateUtil.time_now_formate(), i[1]))
                         command_ = command.format(i[1], self.db, self.time, i[2])
                         print(command_)
-                        os.system(command_)
-                        break
+                        with eventlet.Timeout(600, False):  # 超过600s停止
+                            os.system(command_)
+                        continue
                 self.common_db = None
             except Exception as e:
                 print("主进程出错 ==> {}".format(e))

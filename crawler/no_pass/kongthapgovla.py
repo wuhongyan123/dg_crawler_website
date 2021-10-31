@@ -5,6 +5,7 @@ from utils.date_util import DateUtil
 from scrapy.http.request import Request
 
 
+# author:武洪艳
 class KongthapgovlaSpider(BaseSpider):
     name = 'kongthapgovla'
     website_id = 1629
@@ -37,6 +38,6 @@ class KongthapgovlaSpider(BaseSpider):
         tt = soup.select_one('#headpageSM > font:nth-child(3)').text.split('|')[0].split(' ')
         item['pub_time'] = tt[1] + ' ' + tt[2]
         item['images'] = [img.get('src') for img in soup.select('#headpageSM > a > img')]
-        item['body'] = '\n'.join([paragraph.text.strip() for paragraph in soup.select('#headpageSM > div > font') if paragraph.text!='' and paragraph.text!=' '])
+        item['body'] = '\n'.join([paragraph.text.strip() for paragraph in soup.select('#headpageSM > div > font') if paragraph.text != '' and paragraph.text!=' '])
         item['abstract'] = item['body'].split('\n')[0]
         return item
