@@ -35,6 +35,7 @@ class Main:
                             continue
                         print("-"*20+"time out"*5+"-"*20)
                 self.common_db = None
+                time.sleep(3600*5)  # 测试，循环一次，暂 停5h，
             except Exception as e:
                 print("主进程出错 ==> {}".format(e))
                 self.common_db = None
