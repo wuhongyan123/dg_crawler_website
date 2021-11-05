@@ -32,7 +32,8 @@ class Main:
                         print(command_)
                         with eventlet.Timeout(600, False):  # 超过600s停止
                             os.system(command_)
-                        continue
+                            continue
+                        print("-"*20+"time out"*5+"-"*20)
                 self.common_db = None
                 time.sleep(3600*5)  # 测试，循环一次，暂 停5h，
             except Exception as e:
