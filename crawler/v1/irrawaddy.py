@@ -1,3 +1,5 @@
+import random
+
 from crawler.spiders import BaseSpider
 import requests
 import scrapy
@@ -22,6 +24,8 @@ class IrrawaddySpider(BaseSpider):
                   'https://www.irrawaddy.com/category/specials/myanmar-covid-19', ]
     website_id = 1472  # 网站的id(必填)
     language_id = 1866
+
+    proxy = random.choice(['01','02'])
     # sql = {  # my本地 sql 配置
     #     'host': 'localhost',
     #     'user': 'local_crawler',
@@ -68,8 +72,9 @@ class IrrawaddySpider(BaseSpider):
 
     def get_last_pub(self, url):
         DEFAULT_REQUEST_HEADERS = {
-            'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-            'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.75 Safari/537.36'
+            ':authority':'www.irrawaddy.com',
+            'accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
+            'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/94.0.4606.81 Safari/537.36'
         }
         r = requests.get(url, headers=DEFAULT_REQUEST_HEADERS)
         soup = BeautifulSoup(r.text, 'html.parser')
