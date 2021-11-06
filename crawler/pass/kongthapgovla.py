@@ -12,6 +12,7 @@ class KongthapgovlaSpider(BaseSpider):
     language_id = 2005
     # allowed_domains = ['www.kongthap.gov.la/']
     start_urls = ['https://www.kongthap.gov.la/']  # https://www.kongthap.gov.la/
+    proxy = '02'
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
