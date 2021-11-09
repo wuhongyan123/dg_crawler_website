@@ -6,22 +6,27 @@ from crawler.items import *
 from scrapy.http.request import Request
 import execjs
 import re
+import copy
+
 from common.date import ENGLISH_MONTH as month
+from common.header import MOZILLA_HEADER
 
 
 class AseanorgSpider(BaseSpider):
     name = 'aseanorg'
     website_id = 1802
     language_id = 1866
+    start_urls = [
+        'https://asean.org/category/news/',
+        'https://asean.org/category/statements-meetings/',
+        'https://asean.org/category/speeches/',
+        'https://asean.org/category/news-events/'
+    ]
+    custom_settings = {"DEFAULT_REQUEST_HEADERS": MOZILLA_HEADER}
 
     def start_requests(self):
-        start_url = ['https://asean.org/category/news/',
-                     'https://asean.org/category/statements-meetings/',
-                     'https://asean.org/category/speeches/',
-                     'https://asean.org/category/news-events/'
-                     ]
-        for i,url in enumerate(start_url):
-            yield Request(url=url,meta={'cookiejar':i})
+        for i in self.start_urls:
+            yield Request(url=i,meta={'Headers':MOZILLA_HEADER})
 
     def getCookie(self, response):
         # 用re把js代码扣下来
@@ -38,21 +43,19 @@ class AseanorgSpider(BaseSpider):
 
     def parse(self, response):
         if (re.findall(r'<title>(.*)</title>', response.text)[0] == 'You are being redirected...'):
-            if 'cookie' not in response.meta:
-                cookie = self.getCookie(response)
-                yield Request(url=response.url,headers={'cookie':cookie} ,meta={'cookie':cookie,'cookiejar':response.meta['cookiejar']},dont_filter=True)
-            else:
-                print(11111111111111111111111111111111111)
-                headers = {'cookie':response.meta['cookie']}
-                yield Request(url=response.url, headers=headers, meta={'dont_merge_cookies': True,'cookie':response.meta['cookie'],'cookiejar':response.meta['cookiejar']},dont_filter=True)
+            header = copy.deepcopy(MOZILLA_HEADER)
+            header["cookie"] = self.getCookie(response)
+            # 往request传请求头的方式是直接给meta的Headers传个列表，里面是要修改的请求头字段
+            # 如果Headers里没有user-agent字段会刷新ua，传了就不会刷新而是用你传进去的那个
+            yield Request(url=response.url,meta={'Headers':header},dont_filter=True)
         else:
             soup = BeautifulSoup(response.text, 'html.parser')
             articles = soup.select('div.elementor-widget-container > article > a')
             for article in articles:
                 article_url = article.get('href')
-                yield Request(url=article_url, callback=self.parse_item,headers=hd,dont_filter=True)
+                # 后面这些也是一样
+                yield Request(url=article_url, callback=self.parse_item)
             next_page = soup.select_one('.page-numbers.next').get('href')
-            print(next_page)
         # yield Request(url=next_page, meta=response.meta, callback=self.parse_page, headers=hd,dont_filter=True)
 
     def parse_page(self, response):
