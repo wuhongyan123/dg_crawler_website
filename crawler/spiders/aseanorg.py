@@ -10,7 +10,7 @@ import copy
 from common.date import ENGLISH_MONTH as month
 from common.header import MOZILLA_HEADER
 
-
+# author: rht\ldq\why
 class AseanorgSpider(BaseSpider):
     name = 'aseanorg'
     website_id = 1802
@@ -59,7 +59,7 @@ class AseanorgSpider(BaseSpider):
             next_page = soup.select_one('.page-numbers.next').get('href')
             yield Request(url=next_page, meta={'Headers': response.meta['Headers'],'category1':response.meta['category1']}, callback=self.parse_page, dont_filter=True)
 
-    def parse_page(self, response):
+    def parse_page(self, response):  # 文章数量少，且新闻列表没有发布时间，不写时间截止
         soup = BeautifulSoup(response.text, 'html.parser')
         articles = soup.select('article > a')
         for article in articles:
