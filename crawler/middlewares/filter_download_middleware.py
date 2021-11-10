@@ -26,7 +26,9 @@ class FilterDownloaderMiddleware:
                         # request中的dont_filter字段，可以同时越过表查重以及scrapy自带查重
                         # (meta中的dont_filter标记为v1功能，现已废弃)
                         if request.dont_filter == True or request.meta.get('dont_filter', False) == True:
-                                result = ()
+                                md5 = FormatUtil.url_md5(url)
+                                sql = SQL_FILTER.format(str(spider.website_id), md5)
+                                result = spider.news_db.select(sql)
                         # filter查重
                         else:
                                 md5 = FormatUtil.url_md5(url)
