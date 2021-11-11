@@ -50,7 +50,7 @@ class BaseSpider(scrapy.Spider):
 
         if "Headers" not in request.meta.keys():
             return 
-        if isinstance(request.meta["Headers"], dict):
+        if not isinstance(request.meta["Headers"], dict):
             self.send_log(2, "请求头格式错误 ==> " + str(request.meta["Headers"]))
             return 
         for key,value in request.meta["Headers"].items():

@@ -37,7 +37,7 @@ receivers = [  # 收件人邮箱
     '1197072098@qq.com',
     '2630862330@qq.com',  # WPF
     'songyt0325@163.com',  # SongYutao
-    '1226174058@qq.com'  # LinMing
+    '1226144058@qq.com'  # LingMin
 ]
 
 # sql语句,日常数据获取报告和日常获取量。
