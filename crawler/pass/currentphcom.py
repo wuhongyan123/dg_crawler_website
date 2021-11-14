@@ -36,7 +36,7 @@ class CurrentphcomSpider(BaseSpider):
             flag = False
             self.logger.info("时间截止")
         if flag:
-            if soup.select('div.td-pb-span8.td-main-content .page-nav.td-pb-padding-side > a') != []:
+            if soup.select('div.td-pb-span8.td-main-content .page-nav.td-pb-padding-side > a'):
                 next_page = soup.select('div.td-pb-span8.td-main-content .page-nav.td-pb-padding-side > a')[-1].get('href')
                 yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
             else:
