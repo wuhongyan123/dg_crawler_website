@@ -9,9 +9,11 @@ ua = {
 }
 
 
-def GET(url: str):
+def GET(url: str, headers=None):
+    if headers is None:
+        headers = ua
     try:
-        r = requests.get(url=url, headers=ua, timeout=5)
+        r = requests.get(url=url, headers=headers, timeout=5)
         r.raise_for_status()
         print('Request GET successfully!')
         return BeautifulSoup(r.text, 'lxml')

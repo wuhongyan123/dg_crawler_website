@@ -40,8 +40,12 @@ class NwinSpider(BaseSpider):
             try:
                 nextPage = soup.select_one('div.pages-nav a').get('href') if soup.select_one('div.pages-nav a').get(
                     'href') else None
+                pageNum = re.findall('\d+',nextPage)[0]
                 if nextPage:  # 有下一页就翻页
                     yield Request(url=nextPage, meta=response.meta, callback=self.parse_page)
+                    for i in range(2, 500):
+                        url = nextPage.replace(pageNum,str(i))
+                        yield Request(url=url, meta=response.meta, callback=self.parse_page)
             except:
                 self.logger.info('Next page no more')
 

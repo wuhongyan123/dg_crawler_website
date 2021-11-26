@@ -8,6 +8,7 @@ import re
 from datetime import datetime
 import time
 
+
 class maharashtratimesSpider(BaseSpider):
     name = 'maharashtratimes'
     website_id = 473  # 网站的id(必填)
@@ -20,9 +21,6 @@ class maharashtratimesSpider(BaseSpider):
         'db': 'dg_crawler'
     }
 
-    
-         
-        
 
     def parse(self, response):
         html = BeautifulSoup(response.text)
