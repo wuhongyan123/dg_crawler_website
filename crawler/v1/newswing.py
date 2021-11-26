@@ -1,40 +1,29 @@
 from crawler.spiders import BaseSpider
-import scrapy
 from utils.util_old import *
 from crawler.items import *
 from bs4 import BeautifulSoup
 from scrapy.http import Request, Response
 import re
-import time
-import requests
 import socket
 
 class NwinSpider(BaseSpider):
     name = 'newswing'
     allowed_domains = ['newswing.com']
-   # start_urls = ['http://newswing.com/']
+    start_urls = ['https://newswing.com/']
     website_id = 1047  # 网站的id(必填)
     language_id = 1930  # 所用语言的id
-    sql = {  # sql配置
-        'host': '192.168.235.162',
-        'user': 'dg_admin',
-        'password': 'dg_admin',
-        'db': 'dg_crawler'
-    }
+    proxy = '01'
 
-    
-          
-        
 
-    def start_requests(self):
-        socket.setdefaulttimeout(30)
-        soup = BeautifulSoup(requests.get('https://newswing.com/').text, 'html.parser')
+    def parse(self,response):
+        # socket.setdefaulttimeout(30)
+        soup = BeautifulSoup(response.text, 'html.parser')
         for i in soup.select('#menu-main-navigation >li a'):
             meta = {'category1':i.text, 'category2':''}
             if re.match(r'^https://newswing.com/category/',i.get('href')):   # 过滤无效目录
-                yield Request(url=i.get('href'), meta=meta)
+                yield Request(url=i.get('href'), meta=meta, callback=self.parse_page)
 
-    def parse(self, response):
+    def parse_page(self, response):
         soup = BeautifulSoup(response.text, 'html.parser')
         flag = True
         for i in soup.select('.post-details'):  # 每页的文章及其摘要
@@ -51,7 +40,7 @@ class NwinSpider(BaseSpider):
             try:
                 nextPage = soup.select_one('div.pages-nav a').get('href') if soup.select_one('div.pages-nav a').get('href') else None
                 if nextPage:  # 有下一页就翻页
-                    yield Request(url=nextPage, meta=response.meta)
+                    yield Request(url=nextPage, meta=response.meta, callback=self.parse_page)
             except:
                 self.logger.info('Next page no more')
 
@@ -64,10 +53,6 @@ class NwinSpider(BaseSpider):
         # strtt = soup.select_one('#single-post-meta > span:nth-of-type(2)').text  # strtt 形如 '05/01/2021'
         item['pub_time'] = response.meta['pub_time']# strtt.split('/')[2]+'-'+strtt.split('/')[1]+'-'+strtt.split('/')[0]+' 00:00:00'
         item['images'] = [i.get('src') for i in soup.select('figure.single-featured-image img')]
-        ss = ''
-        for p in soup.select('div.featured-area ~ div')[0].select('p'):
-            ss += p.text
-            ss += '\n'
-        item['body'] = ss
-        item['abstract'] =soup.select('div.featured-area ~ div')[0].select('p')[0].text
+        item['body'] = '\n'.join([p.text.strip() for p in soup.select('div.featured-area ~ div')[0].select('p')])
+        item['abstract'] = item['body'].split('\n')[0]
         return item
