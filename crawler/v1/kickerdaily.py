@@ -18,16 +18,13 @@ class KickerdailySpider(BaseSpider):
                   'https://kickerdaily.com/posts/category/social-news/']
     website_id = 496
     language_id = 1880
+    # proxy = '01'
     sql = {  # sql配置
         'host': '192.168.235.162',
         'user': 'dg_admin',
         'password': 'dg_admin',
         'db': 'dg_crawler'
     }
-
-    
-        
-        
 
     def parse(self, response):
         meta = {}

@@ -10,7 +10,7 @@ from utils.date_util import DateUtil
 import os
 import fire
 import eventlet
-eventlet.monkey_patch()
+
 
 class Main:
     def __init__(self, db='01', time='days_ago:3'):
@@ -22,20 +22,21 @@ class Main:
     def run(self):
         command = 'scrapy crawl {} -a db={} -a time={} -a proxy={}'
         while True:
+            eventlet.monkey_patch()
             try:
-                self.common_db = Mysql(COMMON_WEBSITE_CONFIG)
-                self.insert_dev()
-                for i in self.common_db.select(SQL_DEVELOPMENT_SELECT):
-                    if i[1]+'.py' in os.listdir('crawler/v1') or i[1]+'.py' in os.listdir('crawler/pass'):
-                        self.common_db.execute(SQL_DEVELOPMENT_TIME_UPDATE.format(DateUtil.time_now_formate(), i[1]))
-                        command_ = command.format(i[1], self.db, self.time, i[2])
-                        print(command_)
-                        with eventlet.Timeout(600, False):  # 超过600s停止
+                with eventlet.Timeout(10800, False):  # 超过3h停止
+                    self.common_db = Mysql(COMMON_WEBSITE_CONFIG)
+                    self.insert_dev()
+                    for i in self.common_db.select(SQL_DEVELOPMENT_SELECT):
+                        if i[1]+'.py' in os.listdir('crawler/v1') or i[1]+'.py' in os.listdir('crawler/pass'):
+                            self.common_db.execute(SQL_DEVELOPMENT_TIME_UPDATE.format(DateUtil.time_now_formate(), i[1]))
+                            command_ = command.format(i[1], self.db, self.time, i[2])
+                            print(command_)
                             os.system(command_)
                             continue
-                        print("-"*20+"time out"*5+"-"*20)
+                print("-"*20+"time out"*5+"-"*20)
                 self.common_db = None
-                time.sleep(3600*5)  # 测试，循环一次，暂 停5h，
+                # time.sleep(3600*5)  # 测试，循环一次，暂 停5h，
             except Exception as e:
                 print("主进程出错 ==> {}".format(e))
                 self.common_db = None
