@@ -19,8 +19,7 @@ month = {
         'December': '12'
     }
 
-
-# 曾嘉祥
+# author： 曾嘉祥
 class cen_com_khSpider(BaseSpider):
     name = 'cen_com_kh'
     website_id = 1876
@@ -30,8 +29,7 @@ class cen_com_khSpider(BaseSpider):
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
-        menu = soup.find(id='menu-main-menu-1').select('li')
-        menu.pop(-1)
+        menu = soup.find(id='menu-main-menu-1').select('li')[:-1]
         for i in menu:
             url = i.select_one('a').get('href')
             meta ={
@@ -68,21 +66,11 @@ class cen_com_khSpider(BaseSpider):
     def parse_item(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
         item = NewsItem()
-        # item['category1'] = None  # ？？
         item['category1'] = response.meta['category1']
         item['category2'] = None
         item['title'] = response.meta['title']
         item['pub_time'] = response.meta['time']
         item['images'] = [i.get('src') for i in soup.select('.wpb_wrapper img')[1:-1]]
-        p_list = []
-        if soup.find(class_='vc_row tdi_62 td-ss-row wpb_row td-pb-row').select_one('div .wpb_wrapper'):
-            all_p = soup.find(class_='vc_row tdi_62 td-ss-row wpb_row td-pb-row').select_one('div .wpb_wrapper').select('p')
-            for paragraph in all_p:
-                try:
-                    p_list.append(paragraph.text.strip())
-                except:
-                    continue
-            body = '\n'.join(p_list)
-            item['abstract'] = p_list[0]
-            item['body'] = body
+        item['body'] = '\n'.join([i.text.strip() for i in soup.select('.tdb-block-inner.td-fix-index p')])
+        item['abstract'] = item['body'].split('\n')[0]
         yield item
