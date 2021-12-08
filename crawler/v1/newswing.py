@@ -43,7 +43,7 @@ class NwinSpider(BaseSpider):
                 pageNum = re.findall('\d+',nextPage)[0]
                 if nextPage:  # 有下一页就翻页
                     yield Request(url=nextPage, meta=response.meta, callback=self.parse_page)
-                    for i in range(2, 500):
+                    for i in range(2, 180):
                         url = nextPage.replace(pageNum,str(i))
                         yield Request(url=url, meta=response.meta, callback=self.parse_page)
             except:
