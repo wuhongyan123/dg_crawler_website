@@ -2,11 +2,10 @@ from crawler.spiders import BaseSpider
 from utils.util_old import *
 from crawler.items import *
 from bs4 import BeautifulSoup
-from scrapy.http import Request, Response
+from scrapy.http import Request
 import re
-import socket
 
-
+# author 刘鼎谦
 class NwinSpider(BaseSpider):
     name = 'newswing'
     allowed_domains = ['newswing.com']
@@ -17,10 +16,9 @@ class NwinSpider(BaseSpider):
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'html.parser')
-        for i in soup.select('#menu-main-navigation >li a'):
+        for i in soup.select('#menu-main-navigation >li a')[1:]:
             meta = {'category1': i.text, 'category2': ''}
-            if re.match(r'^https://newswing.com/category/', i.get('href')):  # 过滤无效目录
-                yield Request(url=i.get('href'), meta=meta, callback=self.parse_page)
+            yield Request(url=i.get('href'), meta=meta, callback=self.parse_page)
 
     def parse_page(self, response):
         soup = BeautifulSoup(response.text, 'html.parser')
