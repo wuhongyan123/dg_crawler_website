@@ -12,6 +12,7 @@ class InquirernetSpider(BaseSpider):
     language_id = 1866
     # allowed_domains = ['www.inquirer.net']
     start_urls = ['https://www.inquirer.net/']  # https://www.inquirer.net/
+    proxy = '02'
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
