@@ -41,7 +41,7 @@ class yan_sgSpider(BaseSpider):
 
         if flag:
             if soup.find(class_='page-nav td-pb-padding-side') is not None:
-                for i in range(2, 1031):
+                for i in range(2, 200):
                     # next_page = soup.find(class_='page-nav td-pb-padding-side').select('a')[-1].get('href')
                     next_page = 'https://www.yan.sg/all/page/{}'.format(str(i))
                     yield Request(url=next_page, meta=response.meta)
