@@ -24,20 +24,17 @@ receivers = [  # 收件人邮箱
     'jiangshengyi@163.com',
     '331423904@qq.com',
     '734200940@qq.com',
-    '2397812053@qq.com',
     'chenxuanqi6@163.com',
+    '1095791132@qq.com',  # 尹启熙
+    '2630862330@qq.com',  # WPF
+    'songyt0325@163.com',  # SongYutao
+    '1226144058@qq.com'  # LingMin
     '1317787446@qq.com',
-    '912100484@qq.com',
     '2656141474@qq.com',
     '1626321547@qq.com',
     '2754976781@qq.com',
     '1024463088@qq.com',
     '2905939881@qq.com',
-    '1095791132@qq.com',  # 尹启熙
-    '1197072098@qq.com',
-    '2630862330@qq.com',  # WPF
-    'songyt0325@163.com',  # SongYutao
-    '1226144058@qq.com'  # LingMin
 ]
 
 # sql语句,日常数据获取报告和日常获取量。
