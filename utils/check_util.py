@@ -12,7 +12,8 @@ class CheckUtil():
                 '''
                 检查item格式是否有误
                 '''
-                # TODO: 补全
+                if item['language_id'] < 1727 or item['language_id'] > 2272: # language_id的正常范围。
+                        return True
                 return None
 
         @staticmethod

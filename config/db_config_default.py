@@ -9,35 +9,11 @@ WEBSITE_CONFIG_LIST = {
         'password': 'dg',
         'db': 'dg_db_website'
     },
-    '01': {
-        'host': '192.168.235.162',
+    '01': {  # 本地测试数据库
+        'host': 'localhost',
         'port': 3306,
-        'user': 'dg_xxx',
-        'password': 'dg_xxx',
-        'db': 'dg_test'
-    },
-    '02': {
-        'host': '120.24.240.87',
-        'port': 3307,
-        'user': 'dg_xxx',
-        'password': 'dg_xxx',
-        'db': 'dg_test'
+        'user': 'your username',
+        'password': 'your password',
+        'db': 'dg_db_website'
     }
 }
-
-# website常量数据库配置列表
-COMMON_WEBSITE_CONFIG = {
-    'host': '120.24.240.87',
-    'port': 3308,
-    'user': 'dg',
-    'password': 'dg',
-    'db': 'common_website'
-}
-
-# COMMON_WEBSITE_CONFIG = {   # dg账号拥有权限：对common和website读、更新、清空news表权限、插入development表数据
-#     'host': '192.168.235.5',
-#     'port': 3306,
-#     'user': 'dg',
-#     'password': 'dg',
-#     'db': 'common_website'
-# }
