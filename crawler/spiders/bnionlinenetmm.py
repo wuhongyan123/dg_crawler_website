@@ -11,6 +11,7 @@ class BnionlinenetmmSpider(BaseSpider):
     website_id = 1473
     language_id = 2065
     start_urls = ['http://www.bnionline.net/mm/']  # ['http://www.bnionline.net/mm/']
+    proxy = '02'
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
@@ -55,6 +56,8 @@ class BnionlinenetmmSpider(BaseSpider):
         if soup.select_one('article[id] span[datatype]') != None:
             tt = soup.select_one('article[id] span[datatype]').text.replace(',', ' ').split(' ')
             item['pub_time'] = "{}-{}-{}".format(tt[5], date.ENGLISH_MONTH[tt[2]], tt[3]) + ' 00:00:00'
+        else:
+            item['pub_time'] = DateUtil.time_now_formate()
         item['images'] = [img.get('src') for img in soup.select('article[id] img')]
         item['body'] = '\n'.join(
             [paragraph.text.strip() for paragraph in soup.select('article[id] p') if paragraph.text != '' and paragraph.text != ' '])

@@ -5,6 +5,7 @@ from utils.date_util import DateUtil
 from scrapy.http.request import Request
 from common import date
 
+
 # author:武洪艳
 class GnlmcommmSpider(BaseSpider):
     name = 'gnlmcommm'
