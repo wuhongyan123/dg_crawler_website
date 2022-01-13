@@ -75,7 +75,7 @@ class Filipino(BaseSpider):
                     yield Request("http://filipino.cri.cn"+href, callback=self.parse_detail, meta=meta2)
                 else:
                     self.logger.info('时间截止！')
-            finally:
+            except:
                 continue
 
     def parse_detail(self, response):
