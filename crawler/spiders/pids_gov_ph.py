@@ -44,6 +44,7 @@ class Pids(BaseSpider):
                     meta = {'title': title, 'pub_time': pub_time}
                     yield Request(href, callback=self.parse_detail, meta=meta)
                 else:
+                    break  #  时间截止了，就退出循环。
                     self.logger.info('时间截止！')
             except:
                 continue
@@ -53,8 +54,8 @@ class Pids(BaseSpider):
         item = NewsItem()
         item['title'] = response.meta['title']
         item['pub_time'] = response.meta['pub_time']
-        item['body'] = soup.find(attrs={"class": 'large-8 columns page-content-column'}).strip()
-        item['abstract'] = soup.find(attrs={"class": 'large-8 columns page-content-column'}).split('\n')[0]
+        item['body'] = soup.find(attrs={"class": 'large-8 columns page-content-column'}).text.strip()
+        item['abstract'] = soup.find(attrs={"class": 'large-8 columns page-content-column'}).text.split('\n')[0]
         item['category1'] = None
         item['category2'] = None
         item['images'] = None
