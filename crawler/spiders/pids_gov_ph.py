@@ -60,8 +60,7 @@ class Pids(BaseSpider):
                     yield Request(href, callback=self.parse_detail, meta=meta)
                 else:
                     self.logger.info('时间截止！')
-
-            finally:
+            except:
                 continue
 
     def parse_detail(self, response):
