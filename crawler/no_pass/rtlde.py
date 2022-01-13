@@ -1,26 +1,12 @@
-# encoding: utf-8
 from copy import deepcopy
 from crawler.spiders import BaseSpider
 from crawler.items import *
 from utils.date_util import DateUtil
+import time
 import requests
 from requests.adapters import HTTPAdapter
+import locale
 import re
-
-de_month = {
-        'Januar': '1',
-        'Februar': '2',
-        'März': '3',
-        'April': '4',
-        'Mai': '5',
-        'Juni': '6',
-        'Juli': '7',
-        'August': '8',
-        'September': '9',
-        'Oktober': '10',
-        'November': '11',
-        'Dezember': '12'
-    }
 
 # author：欧炎镁
 class RtldeSpider(BaseSpider):
@@ -33,6 +19,8 @@ class RtldeSpider(BaseSpider):
     proxy = '02'  # 需要
     api = 'https://www.rtl.de/thema/{0}-{1}.html'  # 用于获取不同主题
     ascii_n = int(96)  # 主题ascii码，获取以a-z开头的主题
+
+    locale.setlocale(locale.LC_ALL, "de_DE") # 将本地时间换成德国时间 之后就能用time.strptime提取如 August September Oktober 这样的时间
 
     def parse(self, response):
         a_obj_list = response.css('a.rtlde-theme-item.event')
@@ -56,10 +44,9 @@ class RtldeSpider(BaseSpider):
                 while True:
                     try:
                         s = requests.session()
-                        s.mount('https://', HTTPAdapter(max_retries=1))  # 重试1次
+                        s.mount('https://', HTTPAdapter(max_retries=5))  # 重试5次
                         response_item = s.get(url=item_link_list[lengths], timeout=60, headers={"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"},proxies={'https': 'http://192.168.235.5:8888','http': 'http://192.168.235.5:8888'})
-                        tt = scrapy.Selector(response_item).css('p.date-time::text').extract_first().replace('.',' ').replace('-','').split()
-                        last_pub = DateUtil.formate_time2time_stamp("{}-{}-{} {}:00".format(tt[2],de_month[tt[1]],tt[0],tt[-1]))
+                        last_pub = int(time.mktime(time.strptime(scrapy.Selector(response_item).css('p.date-time::text').extract_first(),"%d. %B %Y - %H:%M")))
                         break
                     except:
                         lengths -= 1
@@ -78,9 +65,8 @@ class RtldeSpider(BaseSpider):
         item = NewsItem()
         item['title'] = response.css('h2.header__headline-title::text').extract_first()
         body = response.css('section[data-type="header"],section[data-type="text"],section[data-type="list"] ul li,section[data-type="gallery"] figure div.gallery-counter,section[data-type="gallery"] figure figcaption').xpath('string(.)').extract()
-        item['body'] = '\n'.join([re.sub(r'(?<=[a-zäöüß])(?=[A-ZÄÖÜẞ])',' ',i,count=1).strip() for i in body]) # 列表里会出现标题粘着下一段开头的问题，找到第一个如‘zE’这样的搭配，然后再z和E之间加上一个空格
-        tt = response.css('p.date-time::text').extract_first().replace('.',' ').replace('-','').split()
-        item['pub_time'] = "{}-{}-{} {}:00".format(tt[2],de_month[tt[1]],tt[0],tt[-1])
+        item['body'] = '\n'.join([re.sub(r'(?<=[a-zäöüß])(?=[A-ZÄÖÜẞ])',' ',i,count=1).strip() for i in body]) # <ul><li>列表的文字拿下来里会出现标题粘着下一段开头的问题。这句话是找到第一个如‘zE’这样的搭配，然后再z和E之间加上一个空格
+        item['pub_time'] = time.strftime('%Y-%m-%d %H:%M:%S',time.strptime(response.css('p.date-time::text').extract_first(), "%d. %B %Y - %H:%M"))
         item['category1'] = ','.join(response.css('h2.font-lg::text').extract()) if response.css('h2.font-lg') else response.meta['category1']
         item['category2'] = None
         try:

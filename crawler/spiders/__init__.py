@@ -30,7 +30,7 @@ class BaseSpider(scrapy.Spider):
             # 参数设置
             for i in kwargs.keys():
                 setattr(self, i, kwargs[i])
-            self.is_http = FindUtil.find_is_http(self.website_id)
+            # self.is_http = FindUtil.find_is_http(self.website_id)
             # logger初始化
             self.mini_logger = Logger(self.name)
             # time初始化
