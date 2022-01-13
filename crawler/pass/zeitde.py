@@ -10,7 +10,7 @@ import time
 class ZeitdeSpider(BaseSpider):
     name = 'zeitde'
     # allowed_domains = ['zeit.de']
-    start_urls = ['https://www.zeit.de/thema/register/0-9']
+    start_urls = ['https://www.zeit.de/thema/register/0-9']  # 需要订阅的网站爬虫，
 
     website_id = 1769
     language_id = 1846
