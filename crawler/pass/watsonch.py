@@ -29,8 +29,8 @@ class WatsonchSpider(BaseSpider):
 
     def parse_page(self, response):
         item_link_list = response.css('a.teaserlink::attr(href)').extract()
-        flag = True
         if item_link_list:
+            flag = True
             if self.time is None:
                 for item_link in item_link_list:
                     if 'http' not in item_link:
@@ -38,14 +38,13 @@ class WatsonchSpider(BaseSpider):
                     yield scrapy.Request(url=item_link, callback=self.parse_item, meta=deepcopy(response.meta))
             else:
                 lengths = len(item_link_list) - 1  # 最后一个网址如果5次都拿不到也拿倒数第二个
-                s = requests.session()
-                s.mount('https://', HTTPAdapter(max_retries=1))  # 重试5次 改一下代理
-                while True:
+                last_pub = self.time - 1  # 如果拿不到时间就不要这页了
+                while lengths:
                     try:
+                        s = requests.session()
+                        s.mount('https://', HTTPAdapter(max_retries=5))  # 重试5次
                         response_item = s.get(url=item_link_list[lengths], timeout=60, headers={"User-Agent": "Mozilla/5.0 (Windows; U; Windows NT 6.1; en-us) AppleWebKit/534.50 (KHTML, like Gecko) Version/5.1 Safari/534.50"},proxies={'https': 'http://192.168.235.5:8888','http': 'http://192.168.235.5:8888'})
                         last_pub = int(time.mktime(time.strptime(scrapy.Selector(response_item).css('div[class*="items-center text-xxs text-medium"]::text')[-1].extract(),"%d.%m.%Y, %H:%M")))
-                        if self.time > last_pub:
-                            flag = False
                         break
                     except:
                         lengths -= 1
@@ -57,12 +56,10 @@ class WatsonchSpider(BaseSpider):
                 else:
                     self.logger.info("时间截止")
                     flag = False
-        print('aaaaaaaaa')
-        print(flag)
-        if flag:
-            next_page_link = response.css('div.widget.pagination ul li.current + li a::attr(href)').extract_first()
-            if next_page_link:
-                yield scrapy.Request(response.meta['page_link']+next_page_link, callback=self.parse_page,meta=deepcopy(response.meta))
+            if flag:
+                next_page_link = response.css('div.widget.pagination ul li.current + li a::attr(href)').extract_first()
+                if next_page_link:
+                    yield scrapy.Request(response.meta['page_link']+next_page_link, callback=self.parse_page,meta=deepcopy(response.meta))
 
     def parse_item(self, response):
         item = NewsItem()
