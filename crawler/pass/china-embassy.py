@@ -24,33 +24,32 @@ class ChinaembassySpider(BaseSpider):
 
     # 列表翻页
     def next_page(self, response):
-        meta = response.meta
         soup = BeautifulSoup(response.text, 'html.parser')
         # max_page = soup.select_one('#pages > script').text
         # max = int(max_page.split('\n')[4].split('//')[0].replace(' ', '').split('=')[1])
-        for i in range(0, 28):
-            if i == 0:
-                n_url = 'http://bn.china-embassy.org/chn/' + response.meta['e'] + '/index.htm'
-            else:
-                l = soup.select('#right > div.center_content > ul > li')
-                t = l[0].text.split('(')[1].strip(')')
-                try:
-                    int(t.replace('/', ''))
-                except:
-                    t = 0
-                if self.time == None or t >= int(self.time):
+        if self.time is not None:
+            t = soup.select('#right > div.center_content > ul > li')[-1].text.split('(')[1].strip(')').split('/')
+            tt = "{}-{}-{}".format(t[0], t[1], t[2]) + ' 00:00:00'
+        if self.time == None or DateUtil.formate_time2time_stamp(tt) >= self.time:
+            for i in range(0, 28):
+                if i == 0:
+                    n_url = 'http://bn.china-embassy.org/chn/' + response.meta['e'] + '/index.htm'
+                else:
                     n_url = 'http://bn.china-embassy.org/chn/' + response.meta['e'] + '/index_' + str(i) + '.htm'
-                    yield Request(url=n_url, callback=self.sub_parse, meta=response.meta)
+                yield Request(url=n_url, callback=self.sub_parse, meta=response.meta)
+                # try:
+                #     int(t.replace('/', ''))
+                # except:
+                #     t = 0
 
     def sub_parse(self, response):
-
         soup = BeautifulSoup(response.text, 'html.parser')
         l = soup.select('#right > div.center_content > ul > li')
-
-        for i in l:
-            t = i.text.split('(')[1].strip(')')
-            int(t.replace('/', ''))
-            if self.time == None or t >= int(self.time):
+        if self.time is not None:
+            t = l[-1].text.split('(')[1].strip(')').split('/')
+            tt = "{}-{}-{}".format(t[0], t[1], t[2]) + ' 00:00:00'
+        if self.time == None or DateUtil.formate_time2time_stamp(tt) >= self.time:
+            for i in l:
                 u = i.select_one('a').get('href').strip('.').strip('/')
                 ur = 'http://bn.china-embassy.org/chn/' + response.meta['e'] + '/' + u
                 yield Request(url=ur, callback=self.get_pages)
@@ -58,7 +57,6 @@ class ChinaembassySpider(BaseSpider):
     def get_pages(self, response):
 
         items = NewsItem()
-        # response.encoding = 'utf-8'
         soup = BeautifulSoup(response.text, 'html.parser')
         items['category1'] = 'news'
         try:
