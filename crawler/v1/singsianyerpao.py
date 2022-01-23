@@ -43,6 +43,7 @@ class SingsianyerpaoSpider(BaseSpider):
     start_urls = ['http://www.singsianyerpao.com/']  # http://www.singsianyerpao.com/
     website_id = 1598  # 网站的id(必填)
     language_id = 1813  # 语言
+    is_http = 1
     sql = {  # sql配置
         'host': '192.168.235.162',
         'user': 'dg_admin',
@@ -85,8 +86,9 @@ class SingsianyerpaoSpider(BaseSpider):
             flag = False
             self.logger.info("时间截止")
         if flag:
-            next_page = soup.select_one('div.pagination.clearfix > div > a.nextpostslink').get('href')
-            yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
+            if soup.select_one('div.pagination.clearfix > div > a.nextpostslink') is not None:
+                next_page = soup.select_one('div.pagination.clearfix > div > a.nextpostslink').get('href')
+                yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
 
     def parse_item(self, response):
         soup = BeautifulSoup(response.text, 'lxml')

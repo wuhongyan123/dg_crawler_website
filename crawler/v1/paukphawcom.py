@@ -13,18 +13,19 @@ class PaukphawcomSpider(BaseSpider):
     start_urls = ['http://www.paukphaw.com/']  # http://www.paukphaw.com/
     website_id = 1463  # 网站的id(必填)
     language_id = 2065  # 语言
-    sql = {  # sql配置
-        'host': '192.168.235.162',
-        'user': 'dg_admin',
-        'password': 'dg_admin',
-        'db': 'dg_crawler'
-    }
-    # sql = {  # my本地 sql 配置
-    #     'host': 'localhost',
-    #     'user': 'root',
-    #     'password': 'why520',
+    is_http = 1
+    # sql = {  # sql配置
+    #     'host': '192.168.235.162',
+    #     'user': 'dg_admin',
+    #     'password': 'dg_admin',
     #     'db': 'dg_crawler'
     # }
+    sql = {  # my本地 sql 配置
+        'host': 'localhost',
+        'user': 'root',
+        'password': 'why520',
+        'db': 'dg_crawler'
+    }
 
 
     def parse(self, response):
@@ -38,7 +39,8 @@ class PaukphawcomSpider(BaseSpider):
     def parse_page(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
         flag = True
-        last_time = soup.select('div.col-md-9 .list.list-condensed .items.items-hover .item .item-heading span:nth-child(3)')[-1].text.strip() + ' 00:00:00'
+        if soup.select('div.col-md-9 .list.list-condensed .items.items-hover .item .item-heading span:nth-child(3)') != []:
+            last_time = soup.select('div.col-md-9 .list.list-condensed .items.items-hover .item .item-heading span:nth-child(3)')[-1].text.strip() + ' 00:00:00'
         if self.time is None or Util.format_time3(last_time) >= int(self.time):
             articles = soup.select('div.col-md-9 .list.list-condensed .items.items-hover .item .item-heading > h4 > a')
             for article in articles:
@@ -48,12 +50,8 @@ class PaukphawcomSpider(BaseSpider):
             flag = False
             self.logger.info("时间截止")
         if flag:
-            # pages = int(soup.select_one('div.col-md-9 > div > footer > div > strong:nth-child(3)').text.split('/')[1])
-            # for i in range(1, pages + 1):
-            n = soup.select_one('div.col-md-9 > div > footer > div > strong:nth-child(3)').text.split('/')
-            if n[0] != n[1]:
-                next_page = 'http://www.paukphaw.com' + soup.select('div.col-md-9 > div > footer > div > a')[-2].get(
-                    'href')
+            if soup.select('div.col-md-9 > div > footer > div > a') != []:
+                next_page = 'http://www.paukphaw.com' + soup.select('div.col-md-9 > div > footer > div > a')[-2].get( 'href')
                 yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
             else:
                 self.logger.info("no more pages")
@@ -63,8 +61,12 @@ class PaukphawcomSpider(BaseSpider):
         item = NewsItem()
         item['category1'] = response.meta['category1']
         item['category2'] = response.meta['category2']
-        item['title'] = soup.select_one('div.page-container div.col-md-9 > div.article > header > h1').text
-        item['pub_time'] = soup.select_one('div.col-md-9 > div.article > header > dl > dd:nth-child(1)').text
+        if soup.select_one('div.page-container div.col-md-9 > div.article > header > h1') is not None:
+            item['title'] = soup.select_one('div.page-container div.col-md-9 > div.article > header > h1').text
+        if soup.select_one('div.col-md-9 > div.article > header > dl > dd:nth-child(1)') is not None:
+            item['pub_time'] = soup.select_one('div.col-md-9 > div.article > header > dl > dd:nth-child(1)').text
+        else:
+            item['pub_time'] = Util.format_time()
         image_list = []
         imgs = soup.select('div.col-md-9 > div.article > section.article-content img')
         if imgs:
@@ -74,16 +76,13 @@ class PaukphawcomSpider(BaseSpider):
                 else:
                     image_list.append(img.get('src'))
             item['images'] = image_list
-        p_list = []
-        if soup.select('div.col-md-9 > div.article > section.article-content'):
-            all_p = soup.select('div.col-md-9 > div.article > section.article-content')
-            for paragraph in all_p:
-                if paragraph.text.strip() != ' ' and paragraph.text.strip() != '\n':
-                    p_list.append(paragraph.text.strip())
-            # body = '\n'.join(p_list)
-            item['body'] = '\n'.join(p_list)
-        if soup.select_one('div.col-md-9 > div.article > header > section') is None:
-            item['abstract'] = p_list[0]
-        else:
-            item['abstract'] = soup.select_one('div.col-md-9 > div.article > header > section').text.split(':')[1]
+        item['body'] = '\n'.join(
+            [paragraph.text.strip() for paragraph in
+             soup.select('div.col-md-9 > div.article > section.article-content') if
+             paragraph.text != '' and paragraph.text != ' '])
+        item['abstract'] = item['body'].split('\n')[0]
+        # if soup.select_one('div.col-md-9 > div.article > header > section') is None:
+        #     item['abstract'] = p_list[0]
+        # else:
+        #     item['abstract'] = soup.select_one('div.col-md-9 > div.article > header > section').text.split(':')[1]
         return item
