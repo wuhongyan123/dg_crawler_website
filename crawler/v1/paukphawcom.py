@@ -14,18 +14,18 @@ class PaukphawcomSpider(BaseSpider):
     website_id = 1463  # 网站的id(必填)
     language_id = 2065  # 语言
     is_http = 1
-    # sql = {  # sql配置
-    #     'host': '192.168.235.162',
-    #     'user': 'dg_admin',
-    #     'password': 'dg_admin',
-    #     'db': 'dg_crawler'
-    # }
-    sql = {  # my本地 sql 配置
-        'host': 'localhost',
-        'user': 'root',
-        'password': 'why520',
+    sql = {  # sql配置
+        'host': '192.168.235.162',
+        'user': 'dg_admin',
+        'password': 'dg_admin',
         'db': 'dg_crawler'
     }
+    # sql = {  # my本地 sql 配置
+    #     'host': 'localhost',
+    #     'user': 'root',
+    #     'password': 'why520',
+    #     'db': 'dg_crawler'
+    # }
 
 
     def parse(self, response):
