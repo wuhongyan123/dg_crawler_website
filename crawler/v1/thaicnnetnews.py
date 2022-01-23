@@ -16,6 +16,7 @@ class ThaicnnetnewsSpider(BaseSpider):
     start_urls = ['http://www.thaicn.net/news/']  # http://www.thaicn.net/news/
     website_id = 1603  # 网站的id(必填)
     language_id = 1813  # 语言
+    is_http = 1
     sql = {  # sql配置
         'host': '192.168.235.162',
         'user': 'dg_admin',

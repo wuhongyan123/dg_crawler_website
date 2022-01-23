@@ -22,6 +22,7 @@ class ThailainwangSpider(BaseSpider):
     start_urls = ['http://www.thailianwang.com/portal.php?mod=list/']  # http://www.thailianwang.com/portal.php?mod=list&catid=2
     website_id = 1604  # 网站的id(必填)
     language_id = 1813  # 语言
+    is_http = 1
     sql = {  # sql配置
         'host': '192.168.235.162',
         'user': 'dg_admin',
