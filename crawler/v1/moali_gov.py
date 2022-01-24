@@ -24,15 +24,12 @@ class MoaliGovSpider(BaseSpider):
     }
     # sql = {  # my本地 sql 配置
     #     'host': 'localhost',
-    #     'user': 'local_crawler',
-    #     'password': 'local_crawler',
-    #     'db': 'local_dg_test'
+    #     'user': 'root',
+    #     'password': 'why520',
+    #     'db': 'dg_crawler'
     # }
 
     # 这是类初始化函数，用来传时间戳参数
-    
-          
-        
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
@@ -57,8 +54,11 @@ class MoaliGovSpider(BaseSpider):
             flag = False
             self.logger.info("时间截止")
         if flag:
-            next_page = 'https://www.moali.gov.mm' + soup.select_one('.pager-next a').get('href')
-            yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
+            if soup.select_one('.pager-next a') is None:
+                self.logger.info("no more pages")
+            else:
+                next_page = 'https://www.moali.gov.mm' + soup.select_one('.pager-next a').get('href')
+                yield Request(url=next_page, callback=self.parse_page, meta=response.meta)
 
     def parse_item(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
@@ -79,6 +79,6 @@ class MoaliGovSpider(BaseSpider):
                 p_list.append(paragraph.text)
             body = '\n'.join(p_list)
         item['body'] = body
-        item['abstract'] = soup.select_one('.field-item.even p')
+        item['abstract'] = soup.select_one('.field-item.even p').text
         return item
 
