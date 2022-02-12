@@ -17,7 +17,7 @@ smtp = 'smtp.163.com'  # smtp域名
 # sender = 'khan.liu@qq.com'  # 发送方邮箱(刘鼎谦)
 # passwd = 'wxuhjbiaippcbbac'  # 授权码(ldq)
 sender = 'gdufs_shuwa@163.com'
-passwd = 'JYYXNIASHNOYBTLG'  # 授权码(gdufs_shuwa)
+passwd = 'UZWEIBYLWAOVDQYK'  # 授权码(gdufs_shuwa)
 receivers = [  # 收件人邮箱
     'gdufs_shuwa@163.com',
     '657742829@qq.com',
