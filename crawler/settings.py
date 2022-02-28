@@ -1,3 +1,11 @@
+'''
+Description: file description
+Version: 1.0
+Autor: Renhetian
+Date: 2021-11-05 00:49:07
+LastEditors: Renhetian
+LastEditTime: 2022-02-28 18:51:45
+'''
 # encoding: utf-8
 
 from config.settings_config import *
@@ -6,7 +14,7 @@ from utils.date_util import DateUtil
 from utils.check_util import CheckUtil
 
 BOT_NAME = 'crawler_website'
-SPIDER_MODULES = ['crawler.spiders', 'crawler.pass', 'crawler.v1']
+SPIDER_MODULES = ['crawler.spiders', 'crawler.passed', 'crawler.v1']
 NEWSPIDER_MODULE = 'crawler.spiders'
 ROBOTSTXT_OBEY = False
 COOKIES_ENABLED = False
