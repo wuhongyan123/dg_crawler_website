@@ -1,3 +1,11 @@
+'''
+Description: file description
+Version: 1.0
+Autor: Renhetian
+Date: 2022-01-14 16:03:22
+LastEditors: Renhetian
+LastEditTime: 2022-02-28 23:04:53
+'''
 # encoding: utf-8
 import re
 import time
@@ -28,7 +36,7 @@ class Main:
                     self.common_db = Mysql(COMMON_WEBSITE_CONFIG)
                     self.insert_dev()
                     for i in self.common_db.select(SQL_DEVELOPMENT_SELECT):
-                        if i[1]+'.py' in os.listdir('crawler/v1') or i[1]+'.py' in os.listdir('crawler/pass'):
+                        if i[1]+'.py' in os.listdir('crawler/v1') or i[1]+'.py' in os.listdir('crawler/passed'):
                             self.common_db.execute(SQL_DEVELOPMENT_TIME_UPDATE.format(DateUtil.time_now_formate(), i[1]))
                             command_ = command.format(i[1], self.db, self.time, i[2])
                             print(command_)
@@ -42,7 +50,7 @@ class Main:
                 self.common_db = None
 
     def insert_dev(self):
-        passList=os.listdir('crawler/pass')
+        passList=os.listdir('crawler/passed')
         passList.remove("__init__.py")
         if "__pycache__" in passList:
             passList.remove('__pycache__')
@@ -52,7 +60,7 @@ class Main:
                 for i in passList:
                     name = i[:-3]
                     if name not in deployedSpis:
-                        spiderFile=open(file=f'crawler/pass/{i}',mode='r',encoding='utf-8').read()
+                        spiderFile=open(file=f'crawler/passed/{i}',mode='r',encoding='utf-8').read()
                         tmp = re.findall("proxy[ =']+\d+",spiderFile)[0] if re.findall("proxy[ =']+\d+",spiderFile) else None
                         proxy =re.findall('\d+',tmp)[0] if tmp else '00'
                         is_http = 1 if re.findall("is_http[ '=1]",spiderFile) else 0

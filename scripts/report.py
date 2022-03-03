@@ -17,7 +17,7 @@ smtp = 'smtp.163.com'  # smtp域名
 # sender = 'khan.liu@qq.com'  # 发送方邮箱(刘鼎谦)
 # passwd = 'wxuhjbiaippcbbac'  # 授权码(ldq)
 sender = 'gdufs_shuwa@163.com'
-passwd = 'JYYXNIASHNOYBTLG'  # 授权码(gdufs_shuwa)
+passwd = 'UZWEIBYLWAOVDQYK'  # 授权码(gdufs_shuwa)
 receivers = [  # 收件人邮箱
     'gdufs_shuwa@163.com',
     '657742829@qq.com',
@@ -41,7 +41,7 @@ receivers = [  # 收件人邮箱
 daily_sql = "SELECT website_id,count(*) FROM news WHERE cole_time >= '{}' GROUP BY website_id ORDER BY NULL"
 daily_common_sql = "SELECT website.id,url,website.c_name,country.`name`,`language`.c_name,remark,developer,CAST(website.start_time AS CHAR) FROM website JOIN country ON website.country_id = country.id JOIN `language` ON website.lan_id = `language`.id WHERE website.id = {}"
 all_sql = "SELECT website_id,count(*) FROM news GROUP BY website_id ORDER BY NULL"
-all_common_sql = "SELECT website.id,url,website.c_name,country.`name`,`language`.c_name,remark,developer,CAST(website.start_time AS CHAR) FROM website JOIN country ON website.country_id = country.id JOIN `language` ON website.lan_id = `language`.id WHERE website.id = {}"
+all_common_sql = "SELECT website.id,url,website.c_name,country.`name`,`language`.c_name,remark,developer,CAST(website.start_time AS CHAR) FROM website LEFT JOIN country ON website.country_id = country.id LEFT JOIN `language` ON website.lan_id = `language`.id WHERE website.id = {}"
 # 时间
 time_yesterday = time.strftime("%Y-%m-%d", time.localtime(time.time() - 86400))
 # 文件路径

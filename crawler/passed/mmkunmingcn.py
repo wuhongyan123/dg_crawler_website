@@ -43,7 +43,7 @@ class MmkunmingcnSpider(BaseSpider):
             item['category1'] = response.meta['category1']
             item['title'] = soup.select_one('.page-content h1').text
             item['pub_time'] = soup.select_one('.page-content span.time').text + ':00'
-            item['images'] = [img.get('src') for img in soup.select('.post-content img')]
+            item['images'] = ['https://mm.kunming.cn'+img.get('src') for img in soup.select('.post-content img')]
             item['body'] = '\n'.join(
                 [paragraph.text.strip() for paragraph in soup.select('.post-content') if
                  paragraph.text != '' and paragraph.text != ' '])
