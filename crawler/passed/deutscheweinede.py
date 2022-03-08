@@ -9,6 +9,7 @@ class DeutscheweinedeSpider(BaseSpider):
     name = 'deutscheweinede'
     # allowed_domains = ['deutscheweine.de']
     start_urls = ['http://deutscheweine.de/']
+
     website_id = 1762
     language_id = 1846
 
