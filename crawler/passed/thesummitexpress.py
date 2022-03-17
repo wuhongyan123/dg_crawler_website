@@ -17,7 +17,7 @@ class ThesummitexpressSpider(BaseSpider):
         flag = True
         articles = soup.select('div.blog-posts.hfeed > div')
         if self.time is not None:
-            t = articles[-1].select_one('h2.date-header').text.split(' ')
+            t = articles[-1].select_one('#meta-post a.timestamp-link').text.replace(',', ' ').split(' ')
             last_time = "{}-{}-{}".format(t[5], date.ENGLISH_MONTH[t[2]], t[3]) + ' 00:00:00'
         if self.time is None or DateUtil.formate_time2time_stamp(last_time) >= self.time:
             for article in articles:
