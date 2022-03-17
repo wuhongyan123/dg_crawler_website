@@ -29,12 +29,12 @@ class WowcordilleracomSpider(BaseSpider):
             self.logger.info("no articles")
         else:
             if self.time is not None:
-                t = articles[-1].select_one('h2.date-header').text.split(' ')
-                last_time = "{}-{}-{}".format(t[3], date.ENGLISH_MONTH[t[1]], t[2]) + ' 00:00:00'
+                t = articles[-1].select_one('h2.date-header').text.replace(',', ' ').split(' ')
+                last_time = "{}-{}-{}".format(t[5], date.ENGLISH_MONTH[t[2]], t[3]) + ' 00:00:00'
             if self.time is None or DateUtil.formate_time2time_stamp(last_time) >= self.time:
                 for article in articles:
-                    tt = article.select_one('h2.date-header').text.split(' ')
-                    pub_time = "{}-{}-{}".format(tt[3], date.ENGLISH_MONTH[tt[1]], tt[2]) + ' 00:00:00'
+                    tt = article.select_one('h2.date-header').text.replace(',', ' ').split(' ')
+                    pub_time = "{}-{}-{}".format(tt[5], date.ENGLISH_MONTH[tt[2]], tt[3]) + ' 00:00:00'
                     article_url = article.select_one('h3.post-title.entry-title a').get('href')
                     title = article.select_one('h3.post-title.entry-title a').text
                     yield Request(url=article_url, callback=self.parse_item, meta={'category1': response.meta['category1'], 'title': title, 'pub_time': pub_time})
