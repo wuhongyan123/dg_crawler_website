@@ -29,7 +29,7 @@ month = {
 
 class Khmer7newsSpider(BaseSpider):
     name = 'khmer7news'
-    website_id = 999
+    website_id = 1877
     language_id = 1982
     start_urls = ['https://khmer7news.com/']
     '''
