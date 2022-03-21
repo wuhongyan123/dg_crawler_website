@@ -32,7 +32,10 @@ class BnionlinenetmmSpider(BaseSpider):
         flag = True
         if self.time is not None:
             t = soup.select('#main-content span[datatype]')[-1].text.replace(',', ' ').split(' ')
-            last_time = "{}-{}-{}".format(t[3], date.ENGLISH_MONTH[t[0]], t[1]) + ' 00:00:00'
+            if len(t) == 1:
+                last_time = t[0] + ' 00:00:00'
+            else:
+                last_time = "{}-{}-{}".format(t[3], date.ENGLISH_MONTH[t[0]], t[1]) + ' 00:00:00'
         if self.time is None or DateUtil.formate_time2time_stamp(last_time) >= self.time:
             articles = soup.select('#main-content a')
             for i in articles:
