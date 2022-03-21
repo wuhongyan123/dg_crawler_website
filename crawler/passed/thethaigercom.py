@@ -11,6 +11,7 @@ class ThethaigercomSpider(BaseSpider):
     language_id = 1866
     # allowed_domains = ['thethaiger.com/news']
     start_urls = ['https://thethaiger.com/news/']  # https://thethaiger.com/news
+    proxy = '02'
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
