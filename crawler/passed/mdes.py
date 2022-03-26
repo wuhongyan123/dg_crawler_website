@@ -12,6 +12,7 @@ class MdesSpider(BaseSpider):
     start_urls = ['https://www.mdes.go.th/news/']
     website_id = 1613
     language_id = 2208
+    proxy = '02'
 
     #拿几个含新闻内容的模块的html文件的
     def parse(self, response):
