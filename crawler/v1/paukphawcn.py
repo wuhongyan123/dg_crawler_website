@@ -39,6 +39,7 @@ class PaukphawcnSpider(BaseSpider):
     def parse_page(self, response):
         soup = BeautifulSoup(response.text, 'lxml')
         flag = True
+        global last_time
         if soup.select('div.col-md-9 .list.list-condensed .items.items-hover .item .item-heading span:nth-child(3)') != []:
             last_time = soup.select('div.col-md-9 .list.list-condensed .items.items-hover .item .item-heading span:nth-child(3)')[-1].text.strip() + ' 00:00:00'
         if self.time is None or Util.format_time3(last_time) >= int(self.time):
