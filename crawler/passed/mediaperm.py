@@ -25,7 +25,7 @@ class MediapermSpiderSpider(BaseSpider):
     website_id = 221
     language_id = 2029
     start_urls = ['http://mediapermata.com.bn/']
-    is_http = 1
+    # is_http = 1
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'html.parser')
