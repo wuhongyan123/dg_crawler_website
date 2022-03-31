@@ -24,7 +24,7 @@ ENGLISH_MONTH = {
     'December': '12'}
 
 # author:robot-2233
-class DemoSpiderSpider(BaseSpider):
+class ChedSpiderSpider(BaseSpider):
     name = 'ched'
     website_id = 1268
     language_id = 1866

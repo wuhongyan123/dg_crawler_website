@@ -60,6 +60,7 @@ class BrudirectSpiderSpider(BaseSpider):
     website_id = 218
     language_id = 1866
     start_urls = ['https://www.brudirect.com/viewall_national-headline.php']
+    proxy = '02'
 
 
     def parse(self, response):
