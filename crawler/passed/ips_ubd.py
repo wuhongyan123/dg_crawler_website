@@ -10,7 +10,7 @@ from scrapy.http.request import Request
 
 # Author:陈卓玮
 class ips_ubd_spider(BaseSpider):
-    name = 'ips_ubd_spider'
+    name = 'ips_ubd'
     website_id = 702
     language_id = 2036
     start_urls = ['https://ips.ubd.edu.bn/']

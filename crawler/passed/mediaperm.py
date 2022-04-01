@@ -19,11 +19,13 @@ ENGLISH_MONTH = {
     'October': '10',
     'November': '11',
     'December': '12'}
-class MediapermataSpiderSpider(BaseSpider):
-    name = 'mediapermata'
+
+class MediapermSpiderSpider(BaseSpider):
+    name = 'mediaperm'
     website_id = 221
     language_id = 2029
     start_urls = ['http://mediapermata.com.bn/']
+    # is_http = 1
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'html.parser')
@@ -35,11 +37,11 @@ class MediapermataSpiderSpider(BaseSpider):
         for i in soup.select(' .td-block-row .td_module_1.td_module_wrap.td-animation-stack'):
             ssd=i.select_one(' .td-post-date').text.split()
             time_=ssd[-1]+'-'+ENGLISH_MONTH[ssd[0]]+'-'+ssd[1].split(',')[0]+' 00:00:00'
-            if self.time is None or DateUtil.formate_time2time_stamp(int(time_)) >= int(self.time):
+            if self.time is None or DateUtil.formate_time2time_stamp(time_) >= int(self.time):
                 meta = {'pub_time_': time_}
                 meta['CA']=str(response.url).split('/category/')[1]
                 yield Request(url=i.h3.a.get('href'), callback=self.parse_item,meta=meta)
-        if self.time is None or DateUtil.formate_time2time_stamp(int(time_)) >= int(self.time):
+        if self.time is None or DateUtil.formate_time2time_stamp(time_) >= int(self.time):
             yield Request(url=soup.select(' .page-nav.td-pb-padding-side a')[-1].get('href'),  callback=self.holy_shit)
 
 
@@ -52,5 +54,8 @@ class MediapermataSpiderSpider(BaseSpider):
         item['body'] = soup.select_one(' .td-post-content.tagdiv-type').text
         item['abstract'] = soup.select_one(' .td-post-content.tagdiv-type p').text
         item['pub_time'] = response.meta['pub_time_']
-        item['images'] = [i.img.get('src') for i in soup.select_one(' .td-post-content.tagdiv-type').find_all(class_='wp-caption aligncenter')]
+        try:
+            item['images'] = [i.img.get('src') for i in soup.select_one(' .td-post-content.tagdiv-type').find_all(class_='wp-caption aligncenter')]
+        except:
+            item['images'] = []
         yield item

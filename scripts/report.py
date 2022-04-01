@@ -39,7 +39,7 @@ receivers = [  # 收件人邮箱
 
 # sql语句,日常数据获取报告和日常获取量。
 daily_sql = "SELECT website_id,count(*) FROM news WHERE cole_time >= '{}' GROUP BY website_id ORDER BY NULL"
-daily_common_sql = "SELECT website.id,url,website.c_name,country.`name`,`language`.c_name,remark,developer,CAST(website.start_time AS CHAR) FROM website JOIN country ON website.country_id = country.id JOIN `language` ON website.lan_id = `language`.id WHERE website.id = {}"
+daily_common_sql = "SELECT website.id,url,website.c_name,country.`name`,`language`.c_name,remark,developer,CAST(website.start_time AS CHAR) FROM website LEFT JOIN country ON website.country_id = country.id LEFT JOIN `language` ON website.lan_id = `language`.id WHERE website.id = {}"
 all_sql = "SELECT website_id,count(*) FROM news GROUP BY website_id ORDER BY NULL"
 all_common_sql = "SELECT website.id,url,website.c_name,country.`name`,`language`.c_name,remark,developer,CAST(website.start_time AS CHAR) FROM website LEFT JOIN country ON website.country_id = country.id LEFT JOIN `language` ON website.lan_id = `language`.id WHERE website.id = {}"
 # 时间
