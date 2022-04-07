@@ -1,7 +1,6 @@
 # encoding=utf-8
 
 import time
-
 from libs.mysql import Mysql
 from config.db_config import *
 from libs.excel import Excel
@@ -25,16 +24,11 @@ receivers = [  # 收件人邮箱
     '331423904@qq.com',
     '734200940@qq.com',
     'chenxuanqi6@163.com',
-    '1095791132@qq.com',  # 尹启熙
     '2630862330@qq.com',  # WPF
-    'songyt0325@163.com',  # SongYutao
     '1226144058@qq.com'  # LingMin
-    '1317787446@qq.com',
-    '2656141474@qq.com',
-    '1626321547@qq.com',
-    '2754976781@qq.com',
-    '1024463088@qq.com',
-    '2905939881@qq.com',
+    '2754976781@qq.com'
+    '467691306@qq.com',  # pys
+    '2905939881@qq.com',  # zjx
 ]
 
 # sql语句,日常数据获取报告和日常获取量。
