@@ -21,14 +21,15 @@ receivers = [  # 收件人邮箱
     'gdufs_shuwa@163.com',
     '657742829@qq.com',
     'jiangshengyi@163.com',
+    '1090030606@qq.com', # 林晓钿
     '331423904@qq.com',
-    '734200940@qq.com',
     'chenxuanqi6@163.com',
     '2630862330@qq.com',  # WPF
     '1226144058@qq.com'  # LingMin
     '2754976781@qq.com'
     '467691306@qq.com',  # pys
     '2905939881@qq.com',  # zjx
+    '734200940@qq.com',  # 刘鼎谦
 ]
 
 # sql语句,日常数据获取报告和日常获取量。
