@@ -15,21 +15,8 @@ class ouhuaSpider(BaseSpider):
     start_urls = ['http://www.ouhua.info']
     website_id = 1278  # 网站的id(必填)
     language_id = 1813  # 所用语言的id
-    sql = {  # my sql 配置
-        'host': '192.168.235.162',
-        'user': 'dg_admin',
-        'password': 'dg_admin',
-        'db': 'dg_crawler'
-    }
-
-    headers = {
-        # 'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
-    }
-
-    
-          
-        
+    is_http = 1
+    proxy = '02'
 
     def parse(self, response):
         # response.encoding = 'utf-8'
@@ -49,8 +36,8 @@ class ouhuaSpider(BaseSpider):
         menu = soup.find(class_='branch_list_ul paging').select('.tplist_left')
         for i in menu:
             response.meta['abstract'] = i.select_one('div.tplis_txt p').text
-            response.meta['images'] = ['https:/' + i.select_one('div.tplist_pic img').get('src')]
-            temp_time= i .select_one('div.tplis_txt div.ly').text[-10:]
+            # response.meta['images'] = ['http://www.ouhua.info' + i.select_one('div.tplist_pic img').get('src')]
+            temp_time= i.select_one('div.tplis_txt div.ly').text[-10:]
             adjusted_time=temp_time+' 00:00:00'
             if self.time is None or Util.format_time3(adjusted_time) >= int(self.time):
                 url = 'http://www.ouhua.info' + i.select_one('div.tplist_pic a').get('href')
@@ -84,13 +71,17 @@ class ouhuaSpider(BaseSpider):
         # if self.time is None or Util.format_time3(adjusted_time) < int(self.time):
         #     self.logger.info('时间截止')
         #     return
-
-        item['images'] =  response.url[:32] + soup.select_one('div.con_content img').get('src')
+        item['images']=[]
+        for i in soup.select('div.con_content img'):
+            if re.findall("^http://", i.get('src')):
+                item['images'].append(i.get('src'))
+            else:
+                item['images']+=["http://www.ouhua.info/"+i.get('src')]
         p_list = []
         if soup.select('div.con_content p'):
             all_p = soup.select('div.con_content p')
             for paragraph in all_p:
-                p_list.append(paragraph.text)
+                p_list.append(paragraph.text.strip())
             body = '\n'.join(p_list)
             # item['abstract'] = p_list[0]
             item['body'] = body
