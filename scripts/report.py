@@ -25,8 +25,8 @@ receivers = [  # 收件人邮箱
     '331423904@qq.com',
     'chenxuanqi6@163.com',
     '2630862330@qq.com',  # WPF
-    '1226144058@qq.com'  # LingMin
-    '2754976781@qq.com'
+    '1226144058@qq.com',  # LingMin
+    '2754976781@qq.com',
     '467691306@qq.com',  # pys
     '2905939881@qq.com',  # zjx
     '734200940@qq.com',  # 刘鼎谦
