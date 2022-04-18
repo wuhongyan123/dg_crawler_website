@@ -5,7 +5,7 @@ from crawler.items import *
 from utils.date_util import DateUtil
 from scrapy.http.request import Request
 
-class DemoSpiderSpider(BaseSpider):
+class DenrSpiderSpider(BaseSpider):
     name = 'denr'
     website_id = 1257
     language_id = 1866

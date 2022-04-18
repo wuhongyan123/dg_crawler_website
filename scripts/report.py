@@ -21,7 +21,7 @@ receivers = [  # 收件人邮箱
     'gdufs_shuwa@163.com',
     '657742829@qq.com',
     'jiangshengyi@163.com',
-    '1090030606@qq.com', # 林晓钿
+    '1090030606@qq.com',  # 林晓钿
     '331423904@qq.com',
     'chenxuanqi6@163.com',
     '2630862330@qq.com',  # WPF
