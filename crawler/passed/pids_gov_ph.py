@@ -14,7 +14,7 @@ from utils import date_util
 class Pids(BaseSpider):
     name = 'pids_gov_ph'
     start_urls = [f'https://pids.gov.ph/press-releases?year={str(i)}' for i in range(2013, 2022)]
-    website_id = 1256  # 网站的id(必填)
+    website_id = 699 # 网站的id(必填)
     language_id = 1866  # 所用语言的id
 
     def parse(self, response):  # 获取不同年份下的不同页
