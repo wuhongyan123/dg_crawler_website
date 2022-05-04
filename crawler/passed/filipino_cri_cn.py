@@ -25,7 +25,7 @@ null = ''
 class Filipino(BaseSpider):
     name = 'filipino_cri_cn'
     start_urls = ['http://filipino.cri.cn/balita.html']
-    website_id = 994  # 网站的id(必填)
+    website_id = 1912  # 网站的id(必填)
     language_id = 1880  # 所用语言的id
     is_http = 1
 
@@ -81,13 +81,15 @@ class Filipino(BaseSpider):
     def parse_detail(self, response):
         socket.setdefaulttimeout(30)
         soup = BeautifulSoup(response.text, 'html.parser')
-        body = soup.select_one('#abody').text
-        abstract = soup.select_one('#abody p').text
+        if soup.select_one('#abody') is not None:
+            body = soup.select_one('#abody').text
+        else:
+            body = soup.select_one('.cn-abody-inner').text
         item = NewsItem()
         item['title'] = response.meta['title']
         item['pub_time'] = response.meta['pub_time']
         item['body'] = body
-        item['abstract'] = abstract
+        item['abstract'] = item['body'].split('\n')[0]
         item['category1'] = response.meta['category1']
         item['category2'] = None
         item['images'] = None
