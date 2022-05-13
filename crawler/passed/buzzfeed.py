@@ -12,6 +12,7 @@ from utils.date_util import DateUtil
 import requests
 from bs4 import BeautifulSoup as mutong
 
+
 class buzzfeedSpider(BaseSpider):
     i=0
     j=1
