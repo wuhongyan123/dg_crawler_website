@@ -20,6 +20,7 @@ ENGLISH_MONTH = {
     'November': '11',
     'December': '12'}
 
+
 class MediapermSpiderSpider(BaseSpider):
     name = 'mediaperm'
     website_id = 221
