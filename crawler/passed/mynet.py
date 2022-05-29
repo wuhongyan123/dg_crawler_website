@@ -9,7 +9,6 @@ class MynetSpider(BaseSpider):
     name = 'mynet'
     # allowed_domains = ['mynet.com']
     start_urls = ['https://www.mynet.com/']
-
     website_id = 1823
     language_id = 2227
 
