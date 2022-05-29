@@ -23,7 +23,7 @@ ENGLISH_MONTH = {
 
 
 class cfrSpiderSpider(BaseSpider):
-    name = 'cfr'  # 这是我写过最不好的网站了，不仅各新闻格式不同还报一堆不明所以的403，翻页的各json格式也不一样，真的服了这个网站的前端人员
+    name = 'cfr'
     website_id = 722  # 前面会报挺多403，后面情况会好些，主要是翻页那里出的错，但是是可以翻页的
     language_id = 1866
     start_urls = ['https://www.cfr.org/views/ajax?view_name=topic_filters_cards&view_display_id=filters_block&view_args=338&view_path=%2Ftaxonomy%2Fterm%2F338&view_base_path=&view_dom_id=ae217e8ea88c0888d3ee03400edc4f0db739a2deeaeb88d6defdc0368f97e206&pager_element=0&_wrapper_format=html&topics=All&regions=All&type=All&page=0',
