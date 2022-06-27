@@ -12,6 +12,7 @@ from utils.date_util import DateUtil
 import requests
 from bs4 import BeautifulSoup as mutong
 
+
 class buzzfeedSpider(BaseSpider):
     i=0
     j=1
@@ -97,7 +98,7 @@ class buzzfeedSpider(BaseSpider):
             item['category1'] = response.meta['category1']
             item['category2'] = None
             body_pre=[i.text for i in soup.select('.subbuzz__description >p')]
-            print(body_pre)
+
             if body_pre!=[]:
                 item['body'] = ''.join(body_pre)
             else:

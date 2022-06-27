@@ -6,6 +6,8 @@ import scrapy
 from utils.date_util import DateUtil
 # author: 蔡卓妍
 
+# check:why
+
 month = {
     'Ocak': '01',
     'Şubat': '02',

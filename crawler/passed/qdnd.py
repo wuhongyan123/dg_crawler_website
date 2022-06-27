@@ -5,6 +5,9 @@ from scrapy.http.request import Request
 from bs4 import BeautifulSoup
 
 # author : 李玲宝
+
+# check:why
+
 class QdndSpider(BaseSpider):
     name = 'qdnd'
     website_id = 840

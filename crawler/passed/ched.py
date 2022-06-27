@@ -75,4 +75,4 @@ class chedSpider(BaseSpider):
             item['images'] = soup.find_all(src=re.compile('ched'), id=False)[3].get('src')
         except:
             item['images'] = None
-        yield item
+        return item
