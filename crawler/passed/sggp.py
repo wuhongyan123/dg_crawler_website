@@ -6,7 +6,9 @@ from bs4 import BeautifulSoup
 import time
 
 # author : 李玲宝
+
 # check:why
+
 class SggpSpider(BaseSpider):
     name = 'sggp'
     website_id = 254

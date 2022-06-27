@@ -96,4 +96,4 @@ class Dwiz882am(BaseSpider):
             item['images'] = src
         else:
             item['images'] = None
-        yield item
+        return item
