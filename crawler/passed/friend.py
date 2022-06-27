@@ -4,7 +4,9 @@ from utils.date_util import DateUtil
 from scrapy.http.request import Request
 from bs4 import BeautifulSoup
 
+
 # check:why
+
 # author : 李玲宝
 class FriendSpider(BaseSpider):
     name = 'friend'
@@ -24,6 +26,7 @@ class FriendSpider(BaseSpider):
         if (soup.select_one('.articles .list-table>li') is None):  # 没有文章了，爬虫结束，退出函数
             self.logger.info("时间截止")
             return 1
+
         block = soup.select('.articles .list-table>li')
         flag = True
         if self.time is not None:

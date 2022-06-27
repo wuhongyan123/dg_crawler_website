@@ -20,12 +20,14 @@ class GmanetworkSpider(BaseSpider):
 
             response.meta['category1']= i.text
             response.meta['id']=1
+
             yield Request(url=first_url+i.text.lower().replace('!','').replace(' ','')+'/1',callback=self.parse_page,meta=response.meta)
 
     def parse_page(self,response):
         menu=json.loads(response.text)
         news_list=menu['data']
         if len(menu['next_url'])!=0:#翻页
+
             response.meta['id']=response.meta['id']+1
             yield Request(url=menu['next_url'],callback=self.parse_page,meta=response.meta)
         else :

@@ -80,6 +80,7 @@ class buzzfeedSpider(BaseSpider):
             ti=DateUtil.time_now_formate()
         if self.time is None or DateUtil.formate_time2time_stamp(ti) >= int(self.time):
             item = NewsItem()
+
             title1 = soup.select('.headline_container__AwL7p >h1')
             title2 = soup.select('.news-article-header__title')
             if title1 == []:
@@ -97,6 +98,7 @@ class buzzfeedSpider(BaseSpider):
             item['category1'] = response.meta['category1']
             item['category2'] = None
             body_pre=[i.text for i in soup.select('.subbuzz__description >p')]
+
             if body_pre!=[]:
                 item['body'] = ''.join(body_pre)
             else:
