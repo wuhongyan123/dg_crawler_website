@@ -50,5 +50,7 @@ class dfaSpiderSpider(BaseSpider):
         item['body'] = soup.find_all(itemprop="articleBody")[0].text
         item['abstract'] = soup.find_all(itemprop="articleBody")[0].text.split('\n')[1]
         item['pub_time'] = response.meta['pub_time_']
-        item['images'] = 'https://dfa.gov.ph'+soup.select_one(' .item-page div img').get('src')
+        # item['images'] = 'https://dfa.gov.ph'+soup.select_one(' .item-page div img').get('src')
+        item['images'] = ['https://dfa.gov.ph' + i for i in
+                          response.xpath('//div[@itemprop="articleBody"]//img/@src').getall()]
         yield item
