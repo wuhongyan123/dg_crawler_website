@@ -11,7 +11,7 @@ from scrapy.http.request import Request
 #Author:陈卓玮
 # check；凌敏 pass
 class CHNSGSpider(BaseSpider):
-    name = 'CHNSG'
+    name = 'CHN_SG_EMBY'
     website_id = 438
     language_id = 2266
     start_urls = ['http://www.chinaembassy.org.sg/chn/','http://sg.china-embassy.gov.cn/chn']
