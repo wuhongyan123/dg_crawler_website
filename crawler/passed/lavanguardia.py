@@ -4,7 +4,7 @@ from crawler.items import *
 from utils.date_util import DateUtil
 from scrapy.http.request import Request
 
-
+# check:why
 class lavanguardiaSpider(BaseSpider):
     name = 'lavanguardia'
     website_id = 1279
