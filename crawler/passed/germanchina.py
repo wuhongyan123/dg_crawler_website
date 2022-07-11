@@ -4,8 +4,8 @@ from crawler.items import *
 from utils.date_util import DateUtil
 from scrapy.http.request import Request
 
-class germanchinatodaySpider(BaseSpider): # author：田宇甲
-    name = 'germanchinatoday'
+class germanchinaSpider(BaseSpider): # author：田宇甲
+    name = 'germanchina'
     website_id = 1793
     language_id = 1898
     start_urls = ['http://german.chinatoday.com.cn/ch/aufmacher',
