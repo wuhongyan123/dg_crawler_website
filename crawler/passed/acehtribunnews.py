@@ -6,7 +6,7 @@ from crawler.items import *
 from utils.date_util import DateUtil
 from scrapy.http.request import Request
 #author:钟钧仰
-class AchetrivunnewsSpider(BaseSpider):
+class AchetribunnewsSpider(BaseSpider):
     name = 'achetribunnews'
     website_id = 38
     language_id = 1952
