@@ -46,4 +46,4 @@ class MpgSpider(BaseSpider):  # author：田宇甲
         item['abstract'] = response.meta['abstract_']
         item['pub_time'] = response.meta['pub_time_']
         item['images'] = response.meta['images_']
-        yield item
+        return item
