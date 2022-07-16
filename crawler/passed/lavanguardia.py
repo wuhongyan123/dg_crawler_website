@@ -4,7 +4,7 @@ from crawler.items import *
 from utils.date_util import DateUtil
 from scrapy.http.request import Request
 
-
+# check:why
 class lavanguardiaSpider(BaseSpider):
     name = 'lavanguardia'
     website_id = 1279
@@ -18,7 +18,7 @@ class lavanguardiaSpider(BaseSpider):
         del(menu[-7:])
         no_url = ['https://www.lavanguardia.com/temas','https://www.lavanguardia.com/comer','https://www.lavanguardia.com/comprar','https://www.lavanguardia.com/motor','https://www.lavanguardia.com/de-moda','https://www.lavanguardia.com/ocio/viajes','https://www.lavanguardia.com/magazine','https://www.lavanguardia.com/tecnologia','https://www.lavanguardia.com/comprar/comparativas/','https://www.lavanguardia.com/historiayvida','https://www.lavanguardia.com/horoscopo','https://www.lavanguardia.com/blogs']
         for item in menu:
-            if item.select_one('a').get('href') is not None and item.select_one('a').get('href').find('www') is not -1 and item.select_one('a').get('href') not in no_url:
+            if item.select_one('a').get('href') is not None and item.select_one('a').get('href').find('www') != -1 and item.select_one('a').get('href') not in no_url:
                 category_url = item.select_one('a').get('href')
                 meta = {'category1': item.text.strip()}
                 yield Request(url=category_url, callback=self.parse_page, meta=meta)

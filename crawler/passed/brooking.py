@@ -23,7 +23,7 @@ ENGLISH_MONTH = {
 
 
 class brookingsSpiderSpider(BaseSpider):
-    name = 'brookings'
+    name = 'brooking'
     website_id = 721
     language_id = 1866
     start_urls = ['https://www.brookings.edu/news-releases/page/1/']  # 这个网站更新有点慢，出的数据量少，甚至能出到1996的新闻（惊！

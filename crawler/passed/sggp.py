@@ -11,7 +11,7 @@ import time
 
 class SggpSpider(BaseSpider):
     name = 'sggp'
-    website_id = 254
+    website_id = 253
     language_id = 2242
     start_urls = ['http://www.sggp.org.vn/']
 
