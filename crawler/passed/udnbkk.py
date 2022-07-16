@@ -6,7 +6,7 @@ from scrapy.http.request import Request
 
 # check:wpf pass
 class ubnbkkSpider(BaseSpider):  # author：田宇甲 用时40分钟
-    name = 'ubnbkk'
+    name = 'udnbkk'
     website_id = 227
     language_id = 2266
     start_urls = ['http://www.udnbkk.com/portal.php?mod=list&catid=152&page=1',
