@@ -18,7 +18,8 @@ ENGLISH_MONTH = {
         'Nov': '11',
         'Dec': '12'
     }
-# author: 马颢源 新加坡
+# author: mhy
+# check:wpf pass
 class wcbnSpider(BaseSpider):
     name = 'wcbn'
     start_urls = ['https://www.sccci.org.sg/']#原网页没什么可以爬的，跳转到新的网址,部分内容下没有body，数据量较少
@@ -65,7 +66,7 @@ class wcbnSpider(BaseSpider):
     def parse_item(self, response):
         item = NewsItem()
         item['title'] = response.meta['title']
-        # item['abstract'] = []
+        item['abstract'] = None
         item['pub_time'] = response.meta['pub_time']
         item['category1'] = response.meta['category1']
         item['category2'] = None
@@ -74,5 +75,4 @@ class wcbnSpider(BaseSpider):
         except:
             item['body'] = []
         item['images'] = response.meta['images']
-        item['abstract'] = item['body'].split('\n')[0]
         yield item
