@@ -21,7 +21,7 @@ German_month = {
 
 class MpgSpider(BaseSpider):  # author：田宇甲
     name = 'mpg'
-    website_id = 1740
+    website_id = 2100
     language_id = 1898
     start_urls = ['https://www.mpg.de/newsroom_items/2191/more_items?category=&year=&context=all&limit=10&offset=0']
 
@@ -46,4 +46,4 @@ class MpgSpider(BaseSpider):  # author：田宇甲
         item['abstract'] = response.meta['abstract_']
         item['pub_time'] = response.meta['pub_time_']
         item['images'] = response.meta['images_']
-        yield item
+        return item

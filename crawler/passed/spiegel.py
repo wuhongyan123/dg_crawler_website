@@ -25,6 +25,7 @@ class SpiegelSpider(BaseSpider): # author:田宇甲
     website_id = 1763
     language_id = 1898
     start_urls = [f'https://www.spiegel.de/{i}/' for i in ['thema/ukraine_konflikt', 'plus', 'thema/coronavirus', 'thema/klimawandel', 'ausland', 'panorama', 'sport', 'wirtschaft']]
+    proxy = '02'
 
     def parse(self, response):
         soup = BeautifulSoup(response.text, 'html.parser')
