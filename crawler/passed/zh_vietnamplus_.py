@@ -10,7 +10,7 @@ from crawler.items import *
 from utils.date_util import DateUtil
 
 #author:庄靖哲
-# check: 凌敏 pass
+# check: 凌敏 passa
 class ZhVietnamplusSpider(BaseSpider):
     name = 'zh.vietnamplus'
     allowed_domains = ['zh.vietnamplus.vn']
