@@ -5,7 +5,6 @@ from scrapy.http.request import Request
 from bs4 import BeautifulSoup
 
 # author : 李玲宝
-# 网站是以前孟加拉语写好但是忘记提交的，不是乌尔都语的，id都是对的
 # 文章内容为诗歌，没有时间，都给了'1970-01-01 00:00:00'（因此也没写时间截止函数）;文章都没有图片，没有二级标题
 # check：凌敏 pass
 class SukumarraySpider(BaseSpider):

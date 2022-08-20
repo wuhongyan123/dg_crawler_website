@@ -6,13 +6,12 @@ from bs4 import BeautifulSoup
 import re
 
 # author : 李玲宝
-# 我爬的是那个“乌尔都语”文档的网站，对接的同学说审核爬虫的人填id,那个id是我乱填的（不填会报错）
 # 网站的新闻本来就没有二级标题
 # check：凌敏 pass
 class CpecSpider(BaseSpider):
     name = 'cpec'
-    website_id = 1828
-    language_id = 2227
+    website_id = 2114
+    language_id = 1866
     is_http = 1
     start_urls = ['http://cpec.gov.pk']
 

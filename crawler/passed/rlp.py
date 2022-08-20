@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 # check:wpf pass
 class RlpSpider(BaseSpider):
     name = 'rlp'
-    website_id = 1705
+    website_id = 2115
     language_id = 1898
     start_urls = ['https://www.rlp.de/de/service/pressemeldungen/seite/1/']
     page = 2

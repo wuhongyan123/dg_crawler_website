@@ -24,7 +24,7 @@ ENGLISH_MONTH = {
 # check：凌敏 pass
 class MofeptgovpkSpider(BaseSpider):
     name = 'mofeptgovpk'
-    website_id = 1905
+    website_id = 2113
     language_id = 1779
     is_http = 1
     start_urls = ['http://www.mofept.gov.pk/LatestNews']
