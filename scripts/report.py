@@ -1,5 +1,4 @@
 # encoding=utf-8
-
 import time
 from libs.mysql import Mysql
 from config.db_config import *
@@ -18,7 +17,7 @@ smtp = 'smtp.163.com'  # smtp域名
 sender = 'gdufs_shuwa@163.com'
 passwd = 'UZWEIBYLWAOVDQYK'  # 授权码(gdufs_shuwa)
 receivers = [  # 收件人邮箱
-    'gdufs_shuwa@163.com',
+     'gdufs_shuwa@163.com',
     '657742829@qq.com',
     'jiangshengyi@163.com',
     '1090030606@qq.com',  # 林晓钿
@@ -30,7 +29,7 @@ receivers = [  # 收件人邮箱
     '467691306@qq.com',  # 彭雨胜
     '2905939881@qq.com',  # 曾嘉祥
     '734200940@qq.com',  # 刘鼎谦
-    'ftcy327531@foxmail.com',  # lilingbao
+    'ftcy327531@foxmail.com'  # lilingbao
 ]
 
 # sql语句,日常数据获取报告和日常获取量。
