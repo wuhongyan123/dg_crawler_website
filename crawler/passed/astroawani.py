@@ -20,8 +20,8 @@ from scrapy.http.request import Request
 
 # Author:陈卓玮
 # check：凌敏 pass
-class astro_spider(BaseSpider):
-    name = 'astro_spider'
+class astroawanispider(BaseSpider):
+    name = 'astroawani'
     website_id = 387
     language_id = 2036
 
