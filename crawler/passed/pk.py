@@ -52,6 +52,6 @@ class PkSpider(BaseSpider):
         item['images'] = ["http://pk.chineseembassy.org/chn" + i for i in response.xpath("//*[@id='News_Body_Txt_A']//p//@src").extract()]
         return item
 
-from scrapy.cmdline import execute
-execute(['scrapy', 'crawl', 'pk'])
+# from scrapy.cmdline import execute
+# execute(['scrapy', 'crawl', 'pk'])
 # execute(['scrapy', 'crawl', 'bmwk','-a', 'db=00', '-a', 'proxy=00','-a','time=days_ago:10'])
