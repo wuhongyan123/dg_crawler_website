@@ -17,7 +17,7 @@ smtp = 'smtp.163.com'  # smtp域名
 sender = 'gdufs_shuwa@163.com'
 passwd = 'UZWEIBYLWAOVDQYK'  # 授权码(gdufs_shuwa)
 receivers = [  # 收件人邮箱
-    'gdufs_shuwa@163.com',
+     'gdufs_shuwa@163.com',
     '657742829@qq.com',
     'jiangshengyi@163.com',
     '1090030606@qq.com',  # 林晓钿
