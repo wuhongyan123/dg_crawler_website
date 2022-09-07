@@ -29,7 +29,7 @@ receivers = [  # 收件人邮箱
     '467691306@qq.com',  # 彭雨胜
     '2905939881@qq.com',  # 曾嘉祥
     '734200940@qq.com',  # 刘鼎谦
-    'ftcy327531@foxmail.com'  #  lilingbao
+    '1020853015@qq.com'  #  lilingbao
 ]
 
 # sql语句,日常数据获取报告和日常获取量。
