@@ -23,7 +23,7 @@ German_MONTH = {
 }
 class DfgSpider(BaseSpider):
     name = 'dfg'
-    website_id = 1735
+    website_id = 1738
     language_id = 1898
     start_urls = ["https://www.dfg.de/service/presse/pressemitteilungen/2022/",
                   "https://www.dfg.de/service/presse/pressemitteilungen/2021/",
