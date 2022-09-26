@@ -18,3 +18,11 @@ WEBSITE_CONFIG_LIST = {
     }
 }
 
+COMMON_WEBSITE_CONFIG = {
+    'host': '192.168.235.31',
+    'port': 3306,
+    'user': 'dg',
+    'password': 'dg',
+    'db': 'common_website'
+}
+
