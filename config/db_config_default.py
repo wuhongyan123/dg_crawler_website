@@ -3,7 +3,7 @@
 # 存储news与html的数据库配置列表
 WEBSITE_CONFIG_LIST = {
     '00': {# 此为公用测试数据库（校园网内可使用），可以换成自己的.
-        'host': '192.168.235.5',
+        'host': '192.168.235.31',
         'port': 3306,
         'user': 'dg',
         'password': 'dg',
@@ -17,3 +17,4 @@ WEBSITE_CONFIG_LIST = {
         'db': 'dg_db_website'
     }
 }
+
