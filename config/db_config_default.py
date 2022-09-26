@@ -10,11 +10,11 @@ WEBSITE_CONFIG_LIST = {
         'db': 'dg_db_website'
     },
     '01': {  # 本地测试数据库
-        'host': 'localhost',
+        'host': '192.168.235.162',
         'port': 3306,
-        'user': 'your username',
-        'password': 'your password',
-        'db': 'dg_db_website'
+        'user': 'dg_admin',
+        'password': 'dg_admin',
+        'db': 'dg_crawler'
     }
 }
 
